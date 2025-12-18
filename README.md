@@ -89,8 +89,8 @@ flutter run
 ---
 
 ## 👤 Credits & Pembuat
-Project ini dibuat dan dikembangkan dengan ❤️ oleh:
-**ZULPIKAR SANDIRA (KAKANG ZULL SI GANTENG CALM**
+Project ini dibuat dan dikembangkan dengan 8==D  oleh:
+**ZULPIKAR SANDIRA (KAKANG ZULL SI GANTENG CALM)**
 
 Jika Anda menyukai project ini, jangan lupa untuk memberikan ⭐️ di repositori ini!
 
