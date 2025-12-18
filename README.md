@@ -1,3 +1,9 @@
+<p align="center">
+  <img src="https://www.imghippo.com/i/MfQ6729hdk.jpeg" width="200" />
+  <img src="https://www.imghippo.com/i/Pft7847BV.jpeg" width="200" />
+  <img src="https://www.imghippo.com/i/Euj9525gKc.jpeg" width="200" />
+  <img src="https://www.imghippo.com/i/Uc2398Trg.jpeg" width="200" />
+</p>
 # Scola Agents - Guru Virtual AI 🚀
 
 Scola Agents adalah aplikasi asisten pendidikan berbasis AI yang memungkinkan siswa berinteraksi dengan berbagai persona guru virtual melalui teks dan suara. Proyek ini dibangun menggunakan Flutter dan mengintegrasikan model bahasa canggih dari **OpenRouter (Gemma)** serta teknologi Text-to-Speech premium dari **ElevenLabs**.
