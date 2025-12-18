@@ -41,15 +41,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _scrollListener() {
-    if (_scrollController.offset <= 0) {
-      if (!_showAppBar) setState(() => _showAppBar = true);
-      return;
-    }
-
-    if (_scrollController.offset > _lastOffset && _showAppBar) {
-      setState(() => _showAppBar = false);
-    } else if (_scrollController.offset < _lastOffset && !_showAppBar) {
-      setState(() => _showAppBar = true);
+    bool isAtTop = _scrollController.offset <= 0;
+    if (isAtTop != _showAppBar) {
+      setState(() => _showAppBar = isAtTop);
     }
     _lastOffset = _scrollController.offset;
   }
@@ -65,13 +59,25 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   final OpenRouterService _chatService = OpenRouterService(
-    apiKey: Config.openRouterKey,
+    apiKey: ApiConfig.openRouterKey,
   );
   bool _isTyping = false;
+
+  void _showInDevelopment() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fitur ini dalam pengembangan"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
 
   void _sendMessage() async {
     final text = _controller.text.trim();
     if (text.isEmpty) return;
+    
+    // Hide keyboard on send
+    FocusScope.of(context).unfocus();
     
     _controller.clear();
     setState(() {
@@ -129,27 +135,9 @@ class _ChatScreenState extends State<ChatScreen> {
             backgroundColor: Colors.transparent, 
             elevation: 0,
             scrolledUnderElevation: 0,
-            leading: _showAppBar ? IconButton(
-              icon: const Icon(LucideIcons.menu, color: Colors.white),
-              onPressed: () {}, 
-            ) : null,
-            title: _showAppBar ? Center(
-                child: Text(
-              "Guru Virtual",
-              style: GoogleFonts.outfit(color: Colors.white, fontSize: 18),
-            )) : null,
-            actions: _showAppBar ? [
-              Padding(
-                padding: const EdgeInsets.only(right: 16.0),
-                child: CircleAvatar(
-                  radius: 18,
-                  backgroundColor: Colors.pinkAccent,
-                  child: Text("S",
-                      style: GoogleFonts.outfit(
-                          color: Colors.white, fontWeight: FontWeight.bold)),
-                ),
-              )
-            ] : null,
+            leading: null,
+            title: null,
+            actions: null,
           ),
         ),
       ),
@@ -167,19 +155,31 @@ class _ChatScreenState extends State<ChatScreen> {
             alignment: Alignment.bottomCenter,
             clipBehavior: Clip.none,
             children: [
-              Positioned(
-                bottom: 80, // Stick out from behind the bar
-                left: 0,
-                right: 0,
-                child: Opacity(
-                  opacity: 1.0, // Full vibrancy like the image
-                  child: Lottie.asset(
-                    'assets/animation.json',
+              if (_messages.isEmpty)
+                Positioned(
+                  bottom: -80, // Lifted slightly to show hands
+                  left: 0,
+                  right: 0,
+                  child: Image.asset(
+                    'assets/animation.gif',
                     fit: BoxFit.contain,
-                    height: 250,
+                    height: 550,
+                  )
+                  .animate(
+                    target: MediaQuery.of(context).viewInsets.bottom > 0 ? 0 : 1,
+                  )
+                  .slideY(
+                    begin: 0.5,
+                    end: 0,
+                    curve: Curves.easeOutCubic,
+                    duration: 400.ms,
+                  )
+                  .fade(
+                    begin: 0,
+                    end: 1,
+                    duration: 400.ms,
                   ),
                 ),
-              ),
               _buildInputBar(),
             ],
           ),
@@ -194,7 +194,7 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 20),
+            const SizedBox(height: 80), // AppBar area padding
             ShaderMask(
               shaderCallback: (bounds) => const LinearGradient(
                 colors: [Color(0xFF4285F4), Color(0xFF9B72CB)], // Google Blue to Purple
@@ -220,10 +220,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 height: 1.1,
               ),
             ),
-            const SizedBox(height: 40),
           ],
         ));
   }
+
   
   Widget _buildSkeletonLine({required double width}) {
     return Container(
@@ -323,7 +323,7 @@ class _ChatScreenState extends State<ChatScreen> {
             controller: _controller,
             style: GoogleFonts.outfit(color: Colors.white, fontSize: 18),
             decoration: InputDecoration(
-              hintText: "Malu bertanya sesat di jalan, jadi ayo nanya",
+              hintText: "Malu bertanya sesat di jalan",
               hintStyle: GoogleFonts.outfit(color: Colors.white54, fontSize: 18),
               border: InputBorder.none,
               contentPadding: EdgeInsets.zero,
@@ -337,8 +337,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 backgroundColor: const Color(0xFF2C2C2C),
                 radius: 22,
                 child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                   icon: const Icon(Icons.add, color: Colors.white, size: 22),
-                  onPressed: () {},
+                  onPressed: _showInDevelopment,
                 ),
               ),
               const Spacer(),
@@ -346,8 +348,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 backgroundColor: const Color(0xFF2C2C2C),
                 radius: 22,
                 child: IconButton(
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
                   icon: const Icon(LucideIcons.mic, color: Colors.white, size: 22),
-                  onPressed: () {},
+                  onPressed: _showInDevelopment,
                 ),
               ),
               const SizedBox(width: 12),
@@ -355,7 +359,9 @@ class _ChatScreenState extends State<ChatScreen> {
                 backgroundColor: Colors.white,
                 radius: 22,
                 child: IconButton(
-                  icon: const Icon(LucideIcons.sparkles, color: Colors.black, size: 22), // Gemini Sparkle
+                  padding: EdgeInsets.zero,
+                  constraints: const BoxConstraints(),
+                  icon: const Icon(LucideIcons.send, color: Colors.black, size: 22), 
                   onPressed: _sendMessage,
                 ),
               ),

@@ -9,6 +9,15 @@ import '../widgets/glass_card.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
+  void _showInDevelopment(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fitur ini dalam pengembangan"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,12 +54,18 @@ class HomeScreen extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _buildGlassIcon(LucideIcons.menu),
-                            CircleAvatar(
+                                GestureDetector(
+                                  onTap: () => _showInDevelopment(context),
+                                  child: _buildGlassIcon(LucideIcons.menu),
+                                ),
+                                GestureDetector(
+                                  onTap: () => _showInDevelopment(context),
+                                  child: CircleAvatar(
                                     radius: 24,
-                                    backgroundColor: Colors.white.withOpacity(0.1),
+                                    backgroundColor: Colors.white.withValues(alpha: 0.1),
                                     child: const Icon(LucideIcons.user, color: Colors.white),
                                   ),
+                                ),
                               ],
                             ),
                           ),

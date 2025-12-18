@@ -106,6 +106,15 @@ class _TopicSelectionScreenState extends State<TopicSelectionScreen> with Ticker
     });
   }
 
+  void _showInDevelopment() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fitur ini dalam pengembangan"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -134,16 +143,6 @@ class _TopicSelectionScreenState extends State<TopicSelectionScreen> with Ticker
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Header
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                IconButton(
-                                   icon: const Icon(Icons.arrow_back, color: Colors.white54),
-                                   onPressed: () => Navigator.pop(context),
-                                ),
-                                const Icon(LucideIcons.edit2, color: Colors.white54, size: 20),
-                              ],
-                            ),
                             const SizedBox(height: 20),
                             
                             Text("Guru Virtual Berbasis\nArtificial Intelligence", 
@@ -211,12 +210,15 @@ class _TopicSelectionScreenState extends State<TopicSelectionScreen> with Ticker
                                   teacher['name']!, 
                                   teacher['image']!
                                 )).toList(),
-                                Container(
-                                   margin: const EdgeInsets.only(right: 20),
-                                   child: const CircleAvatar(
-                                     radius: 28,
-                                     backgroundColor: Color(0xFF2C2C35),
-                                     child: Text("+", style: TextStyle(color: Colors.white)),
+                                GestureDetector(
+                                   onTap: _showInDevelopment,
+                                   child: Container(
+                                      margin: const EdgeInsets.only(right: 20),
+                                      child: const CircleAvatar(
+                                        radius: 28,
+                                        backgroundColor: Color(0xFF2C2C35),
+                                        child: Text("+", style: TextStyle(color: Colors.white)),
+                                      ),
                                    ),
                                 ),
                               ],

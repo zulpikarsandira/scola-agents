@@ -4,6 +4,15 @@ import 'package:lucide_icons/lucide_icons.dart';
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
 
+  void _showInDevelopment(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fitur ini dalam pengembangan"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -36,9 +45,7 @@ class AppDrawer extends StatelessWidget {
                       "Yesterday",
                       style: TextStyle(color: Colors.white.withOpacity(0.5)),
                     ),
-                    onTap: () {
-                      // Navigate to chat history
-                    },
+                    onTap: () => _showInDevelopment(context),
                   );
                 },
               ),
@@ -59,9 +66,7 @@ class AppDrawer extends StatelessWidget {
                     context, 
                     title: "Settings", 
                     icon: LucideIcons.settings, 
-                    onTap: () {
-                      // Settings action
-                    }
+                    onTap: () => _showInDevelopment(context),
                   ),
                 ],
               ),

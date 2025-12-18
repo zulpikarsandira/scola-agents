@@ -27,10 +27,10 @@ class ActiveSessionScreen extends StatefulWidget {
 class _ActiveSessionScreenState extends State<ActiveSessionScreen> {
   // Services
   final OpenRouterService _openRouterService = OpenRouterService(
-    apiKey: Config.openRouterKey,
+    apiKey: ApiConfig.openRouterKey,
   );
   final ElevenLabsService _elevenLabsService = ElevenLabsService(
-    apiKey: Config.elevenLabsKey,
+    apiKey: ApiConfig.elevenLabsKey,
   );
   
   // Audio / STT
@@ -98,6 +98,15 @@ class _ActiveSessionScreenState extends State<ActiveSessionScreen> {
     if (_lastWords.isNotEmpty) {
       _processInput(_lastWords);
     }
+  }
+
+  void _showInDevelopment() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fitur ini dalam pengembangan"),
+        duration: Duration(seconds: 2),
+      ),
+    );
   }
 
   void _onSpeechResult(SpeechRecognitionResult result) {
@@ -333,7 +342,7 @@ class _ActiveSessionScreenState extends State<ActiveSessionScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _buildControlIcon(LucideIcons.micOff, false, onTap: () {}),
+                  _buildControlIcon(LucideIcons.micOff, false, onTap: _showInDevelopment),
                   
                    // Main Mic/Action Button
                   GestureDetector(
@@ -354,7 +363,7 @@ class _ActiveSessionScreenState extends State<ActiveSessionScreen> {
                     ),
                   ),
                   
-                  _buildControlIcon(LucideIcons.hand, false, onTap: () {}),
+                  _buildControlIcon(LucideIcons.hand, false, onTap: _showInDevelopment),
                 ],
               ),
             ),

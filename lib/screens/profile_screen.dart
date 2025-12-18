@@ -7,6 +7,15 @@ import '../widgets/glass_card.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
+  void _showInDevelopment(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fitur ini dalam pengembangan"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,10 +57,13 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         Positioned(
                           bottom: 0, right: 0,
-                          child: Container(
-                            padding: const EdgeInsets.all(4),
-                            decoration: const BoxDecoration(color: AppTheme.neonAccent, shape: BoxShape.circle),
-                            child: const Icon(LucideIcons.edit2, size: 14, color: Colors.white),
+                          child: GestureDetector(
+                            onTap: () => _showInDevelopment(context),
+                            child: Container(
+                              padding: const EdgeInsets.all(4),
+                              decoration: const BoxDecoration(color: AppTheme.neonAccent, shape: BoxShape.circle),
+                              child: const Icon(LucideIcons.edit2, size: 14, color: Colors.white),
+                            ),
                           ),
                         ),
                       ],

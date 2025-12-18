@@ -8,6 +8,15 @@ import '../widgets/neon_button.dart';
 class SummaryScreen extends StatelessWidget {
   const SummaryScreen({super.key});
 
+  void _showInDevelopment(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Fitur ini dalam pengembangan"),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,14 +93,14 @@ class SummaryScreen extends StatelessWidget {
               NeonButton(
                 text: "Latihan Ulang",
                 icon: LucideIcons.refreshCw,
-                onPressed: () {},
+                onPressed: () => _showInDevelopment(context),
               ),
               const SizedBox(height: 16),
               NeonButton(
                 text: "Kirim ke Guru",
                 icon: LucideIcons.send,
                 isPrimary: false,
-                onPressed: () {},
+                onPressed: () => _showInDevelopment(context),
               ),
             ],
           ),
